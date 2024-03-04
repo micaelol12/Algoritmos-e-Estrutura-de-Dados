@@ -12,20 +12,20 @@ private int tamanho;
 }
  
  private void redimensionar() {
-	 int novoTamanho = tamanho + 10;
+	 int novoTamanho = getTamanho() + 10;
 	 int[] novoVetor = new int[novoTamanho];
-	 for(int i = 0;i  <= tamanho-1;i++) {
-		 novoVetor[i] = info[i];
+	 for(int i = 0;i  <= getTamanho()-1;i++) {
+		 novoVetor[i] = getInfo()[i];
 	 }
 	 setInfo(novoVetor);
  }
  
  public void inserir(int valor) {
-	 if(tamanho == info.length) {
+	 if(getTamanho() == getInfo().length) {
 		 redimensionar();
 	 }
-	 info[tamanho] = valor;
-	 tamanho++;
+	 getInfo()[getTamanho()] = valor;
+	 setTamanho(getTamanho() + 1);;
  }
  
  public void exibir() {
@@ -33,8 +33,8 @@ private int tamanho;
  }
  
  public int buscar(int valor) {
-	for(int i =0; i <= tamanho -1;i++) {
-		int aux = info[i];
+	for(int i =0; i <= getTamanho() -1;i++) {
+		int aux = getInfo()[i];
 		
 		if(aux == valor) {
 			return i;
@@ -50,36 +50,40 @@ private int tamanho;
 		 return;
 	 }
 	 
-	 for(int i = posicao + 1;i <= tamanho -1;i++) {
-		 int aux = info[i];
-		 info[i -1] = aux;
+	 for(int i = posicao + 1;i <= getTamanho() -1;i++) {
+		 int aux = getInfo()[i];
+		 getInfo()[i -1] = aux;
 	 }
 	 
 	 
-	 tamanho--;
+	 setTamanho(getTamanho() -1);;
  }
  
  public void liberar() {
 	 int[] novoVetor = new int[10];
+	 setTamanho(0);
 	 setInfo(novoVetor);
  }
  
  public int obterElemento(int posicao) {
-	 int valor = info[posicao];
+	if(posicao > getTamanho()){
+		throw new IndexOutOfBoundsException("Índice " + posicao + " fora dos limites para comprimento " + getTamanho() );
+	}
+	 int valor = getInfo()[posicao];
 	 return valor;
  }
  
  public boolean estaVazia() {
-	 return tamanho == 0;
+	 return getTamanho() == 0;
  }
  
  public String toString() {
 	 String valor = "";
 	 
-		for(int i =0; i <= tamanho -1;i++) {
-			valor += info[i];
+		for(int i =0; i <= getTamanho() -1;i++) {
+			valor += getInfo()[i];
 			
-			if(i != tamanho -1) {
+			if(i != getTamanho() -1) {
 				valor += ",";
 			}
 			

@@ -10,7 +10,7 @@ class ListaEstativaTest {
 	
 	   @BeforeEach
 	    public void setUp() {
-		   
+		   	teste.liberar();
 			teste.inserir(5);
 			teste.inserir(10);
 			teste.inserir(15);
@@ -84,20 +84,30 @@ class ListaEstativaTest {
 	
 	@Test
 	void test7() {
-		ListaEstatica teste2 = new ListaEstatica();
-		
-		teste2.inserir(5);
-		teste2.inserir(10);
-		teste2.inserir(15);
-		teste2.inserir(20);
 
-
-		
 		
 		int retornoE = 20 ;
 		
-		int retorno = teste2.obterElemento(3);
+		int retorno = teste.obterElemento(3);
 		assertEquals(retorno, retornoE);
+	}
+
+	@Test
+	void test8() {
+
+		Exception exception = assertThrows(RuntimeException.class, () ->
+        teste.obterElemento(5));
+		
+		assertEquals("Índice 5 fora dos limites para comprimento 4", exception.getMessage());
+	}
+
+
+	@Test
+	void test9() {
+
+		teste.liberar();
+		
+		assertEquals(teste.estaVazia(),true);
 	}
 
 }
