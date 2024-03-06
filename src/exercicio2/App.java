@@ -1,7 +1,5 @@
 package exercicio2;
 
-import java.util.Scanner;
-
 public class App {
 
     public static void main(String[] args) {
@@ -12,9 +10,7 @@ public class App {
         nomes.inserir(15);
         nomes.inserir(20);
 
-
-    nomes.inverter();
-
+        nomes.inverter();
 
     }
 }
