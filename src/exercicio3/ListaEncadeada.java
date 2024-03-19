@@ -47,7 +47,7 @@ public class ListaEncadeada<T> {
         NoLista<T> p = primeiro;
         NoLista<T> anterior = null;
         // Procura o nó
-        while (p != null && p.getInfo() != info) {
+        while (p != null && !p.getInfo().equals(info)) {
             anterior = p;
             p = p.getProximo();
         }
@@ -74,35 +74,63 @@ public class ListaEncadeada<T> {
 
         return comprimento;
     }
+    /*
+     * //Não otimizado ---------------------------------------------------------
+     * 
+     * public NoLista<T> obterNo(int idx) throws java.lang.IndexOutOfBoundsException
+     * {
+     * NoLista<T> p = primeiro;
+     * int comprimento = obterComprimento();
+     * int posicao = 0;
+     * 
+     * if (idx < 0 || idx >= comprimento) {
+     * throw new IndexOutOfBoundsException();
+     * }
+     * 
+     * while (p != null) {
+     * if (posicao == idx) {
+     * return p;
+     * }
+     * posicao++;
+     * p = p.getProximo();
+     * }
+     * 
+     * return null;
+     * }
+     */
 
+    // otimizado -------------------------------------------------
     public NoLista<T> obterNo(int idx) throws java.lang.IndexOutOfBoundsException {
-        NoLista<T> p = primeiro;
-        int comprimento = obterComprimento();
-        int posicao = 0;
-
-        if (idx < 0 || idx > comprimento) {
+        if (idx < 0) {
             throw new IndexOutOfBoundsException();
         }
 
-        while (p != null) {
-            if (posicao == idx) {
-                return p;
-            }
-            posicao++;
+        NoLista<T> p = getPrimeiro();
+
+        while (p != null && idx > 0) {
+            idx--;
             p = p.getProximo();
         }
 
-        return null;
+        if (p == null) {
+            throw new IndexOutOfBoundsException();
+        }
+
+        return p;
     }
 
-    public String toString(){
+    public String toString() {
         NoLista<T> p = primeiro;
 
         String str = "";
 
         while (p != null) {
-            str += ", ";
-            str += p.getInfo();
+            if (p != primeiro) {
+                str += ", ";
+
+            }
+
+            str += p.getInfo().toString();
             p = p.getProximo();
         }
 
