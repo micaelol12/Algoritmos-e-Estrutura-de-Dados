@@ -120,7 +120,7 @@ public class ListaEncadeada<T> {
     }
 
     public String toString() {
-        NoLista<T> p = primeiro;
+        NoLista<T> p = getPrimeiro();
 
         String str = "";
 
