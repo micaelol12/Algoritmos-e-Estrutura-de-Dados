@@ -119,17 +119,19 @@ public class ListaDuplaTest {
 
         numeros.liberar();
 
-        assertEquals(null, aux5.getAnterior());
-        assertEquals(null, aux5.getProximo());
+        assertNull(aux5.getAnterior());
+        assertNull(aux5.getProximo());
 
-        assertEquals(null, aux10.getAnterior());
-        assertEquals(null, aux10.getProximo());
+        assertNull(aux10.getAnterior());
+        assertNull(aux10.getProximo());
 
-        assertEquals(null, aux15.getAnterior());
-        assertEquals(null, aux15.getProximo());
+        assertNull(aux15.getAnterior());
+        assertNull(aux15.getProximo());
 
-        assertEquals(null, aux20.getAnterior());
-        assertEquals(null, aux20.getProximo());
+        assertNull(aux20.getAnterior());
+        assertNull(aux20.getProximo());
+
+        assertNull(numeros.getPrimeiro());
 
     };
 

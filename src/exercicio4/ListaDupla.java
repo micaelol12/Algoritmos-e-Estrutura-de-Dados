@@ -9,6 +9,7 @@ public class ListaDupla<T> {
 
     public void inserir(T valor) {
         NoListaDupla<T> novoValor = new NoListaDupla<>();
+
         novoValor.setInfo(valor);
         novoValor.setProximo(primeiro);
         novoValor.setAnterior(null);
@@ -42,7 +43,7 @@ public class ListaDupla<T> {
             NoListaDupla<T> proximo = p.getProximo();
             NoListaDupla<T> anterior = p.getAnterior();
 
-            if (p.equals(primeiro)) {
+            if (anterior == null) {
                 setPrimeiro(proximo);
             } else {
                 anterior.setProximo(proximo);
@@ -52,36 +53,41 @@ public class ListaDupla<T> {
                 proximo.setAnterior(anterior);
             }
         }
-
     }
 
-    public void exibirOrdemInversa() {
+    private NoListaDupla<T> obterUltimo() {
         NoListaDupla<T> p = getPrimeiro();
 
         while (p.getProximo() != null) {
             p = p.getProximo();
         }
 
+        return p;
+
+    }
+
+    public void exibirOrdemInversa() {
+        NoListaDupla<T> p = obterUltimo();
+
         while (p != null) {
             System.out.println(p.getInfo().toString());
             p = p.getAnterior();
         }
-
     }
 
     public void liberar() {
         NoListaDupla<T> p = getPrimeiro();
 
-        while (p != (null)) {
+        while (p != null) {
             NoListaDupla<T> proximo = p.getProximo();
-            
-            p.setInfo(null);
+
             p.setAnterior(null);
             p.setProximo(null);
 
             p = proximo;
         }
 
+        setPrimeiro(null);
     }
 
     public String toString() {
