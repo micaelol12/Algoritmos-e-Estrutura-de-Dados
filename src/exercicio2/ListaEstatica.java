@@ -111,6 +111,34 @@ public class ListaEstatica<T> {
 		}
 	}
 
+	// Prova
+	public void retirarElementos(int inicio, int fim) {
+		if (inicio < 0 || fim < 0) {
+			throw new IndexOutOfBoundsException();
+		}
+
+		if (inicio > fim) {
+			throw new IndexOutOfBoundsException();
+		}
+
+		if (inicio >= getTamanho() || fim >= getTamanho()) {
+			throw new IndexOutOfBoundsException();
+		}
+
+		int destino = inicio;
+
+		for (int i = fim + 1; i <= getTamanho(); i++) {
+			info[destino] = info[i];
+			destino++;
+		}
+
+		for (int i = 1; i <= (fim - inicio + 1); i++) {
+			info[tamanho - 1] = null;
+		}
+
+		tamanho = tamanho - (fim - inicio + 1);
+	}
+
 	public Object[] getInfo() {
 		return info;
 	}

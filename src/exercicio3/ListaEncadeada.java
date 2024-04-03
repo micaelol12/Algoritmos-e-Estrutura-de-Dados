@@ -74,6 +74,27 @@ public class ListaEncadeada<T> {
 
         return comprimento;
     }
+
+    // Prova
+    public void retirarTodos(T valor) {
+        NoLista<T> p = primeiro;
+        NoLista<T> anterior = null;
+
+        while (p != null) {
+            if (p.getInfo().equals(valor)) {
+                if (p == primeiro) {
+                    setPrimeiro((p.getProximo()));
+                } else {
+                    anterior.setProximo(p.getProximo());
+
+                }
+            } else {
+                anterior = p;
+            }
+
+            p = p.getProximo();
+        }
+    }
     /*
      * //Não otimizado ---------------------------------------------------------
      * 
