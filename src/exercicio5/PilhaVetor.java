@@ -75,8 +75,7 @@ public class PilhaVetor<T> implements Pilha<T> {
         }
 
         for (int i = 0; i < p.getTamanho(); i++) {
-            getInfo()[tamanho] = p.getInfo()[i];
-            setTamanho(tamanho + 1);
+            push(p.getInfo()[i]);
         }
     }
 
