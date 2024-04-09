@@ -40,4 +40,8 @@ public class PilhaLista<T> implements Pilha<T> {
         }
     }
 
+    public String toString() {
+        return lista.toString();
+    }
+
 }
