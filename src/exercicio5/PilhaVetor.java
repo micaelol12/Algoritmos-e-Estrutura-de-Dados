@@ -45,19 +45,20 @@ public class PilhaVetor<T> implements Pilha<T> {
     }
 
     public void liberar() {
-        for (int i = 0; i < getTamanho(); i++) {
-            getInfo()[i] = null;
+        int tamanho = getTamanho();
+        for (int i = 0; i < tamanho; i++) {
+            pop();
         }
     }
 
     public String toString() {
         String str = "";
 
-        for (int i = 0; i < getTamanho(); i++) {
-            if (i != 0) {
+        for (int i = getTamanho() - 1; i >= 0; i--) {
+            if (i != getTamanho() - 1) {
                 str += ", ";
-
             }
+
             str += getInfo()[i].toString();
         }
 
