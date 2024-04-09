@@ -38,17 +38,20 @@ public class PilhaVetor<T> implements Pilha<T> {
     }
 
     public T pop() {
-        T valor;
-        valor = peek();
+        T valor = peek();
+        info[tamanho - 1] = null;
         setTamanho(tamanho - 1);
         return valor;
     }
 
     public void liberar() {
-        int tamanho = getTamanho();
-        for (int i = 0; i < tamanho; i++) {
+       try {
+        while (true) {
             pop();
         }
+       } catch (PilhaVaziaException e) {
+        // TODO: handle exception
+       }
     }
 
     public String toString() {
@@ -68,7 +71,7 @@ public class PilhaVetor<T> implements Pilha<T> {
     public void concatenar(PilhaVetor<T> p) {
 
         if (p.getTamanho() + getTamanho() > limite) {
-            throw new RuntimeException();
+            throw new RuntimeException("Não há espaço para empilhar todos os dados");
         }
 
         for (int i = 0; i < p.getTamanho(); i++) {
