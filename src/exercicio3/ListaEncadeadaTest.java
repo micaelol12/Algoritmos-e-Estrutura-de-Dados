@@ -166,4 +166,38 @@ class ListaEncadeadaTest {
 		assertEquals(teste.obterComprimento(), 4);
 	}
 
+	@Test
+	void test15() {
+		teste.inserir(5);
+		teste.inserir(10);
+		teste.inserir(15);
+		teste.inserir(20);
+
+		teste.retirar(5);
+
+		assertEquals(10, teste.getUltimo().getInfo());
+	}
+
+	@Test
+	void test16() {
+		teste.inserir(5);
+		teste.inserir(10);
+		teste.inserir(15);
+		teste.inserir(20);
+
+		teste.inserirNoFinal(1);
+
+		assertEquals("20, 15, 10, 5, 1", teste.toString());
+	}
+
+	@Test
+	void test17() {
+		teste.inserirNoFinal(5);
+		teste.inserirNoFinal(10);
+		teste.inserirNoFinal(15);
+		teste.inserirNoFinal(20);
+
+		assertEquals(5, teste.getPrimeiro().getInfo());
+	}
+
 }

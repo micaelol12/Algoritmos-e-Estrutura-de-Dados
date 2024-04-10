@@ -2,6 +2,7 @@ package exercicio3;
 
 public class ListaEncadeada<T> {
     private NoLista<T> primeiro;
+    private NoLista<T> ultimo;
 
     public ListaEncadeada() {
         setPrimeiro(null);
@@ -15,11 +16,39 @@ public class ListaEncadeada<T> {
         this.primeiro = primeiro;
     }
 
+    public NoLista<T> getUltimo() {
+        return ultimo;
+    }
+
+    public void setUltimo(NoLista<T> ultimo) {
+        this.ultimo = ultimo;
+    }
+
     public void inserir(T info) {
         NoLista<T> novo = new NoLista<T>();
         novo.setInfo(info);
         novo.setProximo(primeiro);
+
+        if (estaVazia()) {
+            setUltimo(novo);
+        }
+        ;
+
         setPrimeiro(novo);
+    }
+
+    public void inserirNoFinal(T valor) {
+        NoLista<T> novo = new NoLista<>();
+        novo.setInfo(valor);
+        novo.setProximo(null);
+
+        if (estaVazia()) {
+            setPrimeiro(novo);
+        } else {
+            getUltimo().setProximo(novo);
+        }
+
+        setUltimo(novo);
     }
 
     public boolean estaVazia() {
@@ -59,7 +88,11 @@ public class ListaEncadeada<T> {
             } else {
                 anterior.setProximo(p.getProximo());
             }
+            if (p == getUltimo()) {
+                setUltimo(anterior);
+            }
         }
+
     }
 
     public int obterComprimento() {
@@ -86,7 +119,9 @@ public class ListaEncadeada<T> {
                     setPrimeiro((p.getProximo()));
                 } else {
                     anterior.setProximo(p.getProximo());
-
+                }
+                if (p == getUltimo()) {
+                    setUltimo(anterior);
                 }
             } else {
                 anterior = p;
