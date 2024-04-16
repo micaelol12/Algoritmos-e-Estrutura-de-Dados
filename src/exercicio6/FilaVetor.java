@@ -52,8 +52,7 @@ public class FilaVetor<T> implements Fila<T> {
             throw new FilaCheiaException();
         }
 
-        int posicaoInserir;
-        posicaoInserir = (getInicio() + getTamanho()) % getLimite();
+        int posicaoInserir = (getInicio() + getTamanho()) % getLimite();
         getInfo()[posicaoInserir] = valor;
         setTamanho(getTamanho() + 1);
     }
@@ -92,47 +91,43 @@ public class FilaVetor<T> implements Fila<T> {
         }
     };
 
+    private int concatenaListas(int indice, FilaVetor<T> fv, FilaVetor<T> novaFila) {
+        for (int i = 0; i < fv.getTamanho(); i++) {
+            novaFila.inserir(fv.getInfo()[indice]);
+            indice = (indice + 1) % fv.getLimite();
+        }
+
+        return indice;
+    }
+
     public FilaVetor<T> criarFilaConcatenada(FilaVetor<T> f2) {
-        FilaVetor<T> novaLista = new FilaVetor<>(getLimite() + f2.getLimite());
+        FilaVetor<T> novaFila = new FilaVetor<>(getLimite() + f2.getLimite());
 
-        int inicio = 0;
+        int indice = getInicio();
 
-        for (int i = getInicio(); i < getTamanho(); i++) {
-            int posi = getLimite() % (i + 1);
+        concatenaListas(indice, this, novaFila);
 
-            T valor = getInfo()[posi];
+        concatenaListas(indice, f2, novaFila);
 
-            novaLista.inserir(valor);
-            inicio = i;
-        }
-
-        for (int i = 0; i < f2.getTamanho(); i++) {
-            T valor = f2.getInfo()[inicio + i];
-
-            if (valor != null) {
-                novaLista.inserir(valor);
-            }
-        }
-
-        return novaLista;
+        return novaFila;
 
     }
 
     public String toString() {
         String str = "";
 
-        for (int i = getInicio(); i < getTamanho(); i++) {
+        int indice = inicio;
+        for (int i = 0; i < getTamanho(); i++) {
 
-            if (i != getInicio()) {
+            if (i > 0) {
                 str += ", ";
             }
 
-            int posi = getLimite() % (i + getTamanho());
-
-            T valor = getInfo()[posi];
+            T valor = getInfo()[indice];
 
             str += valor.toString();
 
+            indice = (indice + 1) % limite;
         }
 
         return str;

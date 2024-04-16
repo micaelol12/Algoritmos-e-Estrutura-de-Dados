@@ -19,6 +19,10 @@ public class FilaLista<T> implements Fila<T> {
     }
 
     public T peek() {
+        if (estaVazia()) {
+            throw new FilaVaziaException();
+        }
+
         return lista.getPrimeiro().getInfo();
     }
 
@@ -29,6 +33,17 @@ public class FilaLista<T> implements Fila<T> {
     }
 
     public void liberar() {
+        try {
+            while (true) {
+                retirar();
+            }
+        } catch (FilaVaziaException l) {
+
+        }
+    }
+
+    public String toString() {
+        return lista.toString();
     }
 
 }

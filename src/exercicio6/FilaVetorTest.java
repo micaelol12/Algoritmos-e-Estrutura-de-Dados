@@ -85,7 +85,6 @@ public class FilaVetorTest {
         assertTrue(inteiros.estaVazia());
     }
 
-
     @Test
     void test8() {
         FilaVetor<Integer> inteiros = new FilaVetor<>(5);
@@ -93,21 +92,17 @@ public class FilaVetorTest {
         inteiros.inserir(20);
         inteiros.inserir(30);
 
-        inteiros.liberar();
+        FilaVetor<Integer> inteiros2 = new FilaVetor<>(3);
+        inteiros2.inserir(40);
+        inteiros2.inserir(50);
 
-        assertTrue(inteiros.estaVazia());
-    }
+        FilaVetor<Integer> inteiros3 = inteiros.criarFilaConcatenada(inteiros2);
 
-    @Test
-    void test9() {
-        FilaVetor<Integer> inteiros = new FilaVetor<>(5);
-        inteiros.inserir(10);
-        inteiros.inserir(20);
-        inteiros.inserir(30);
-        inteiros.inserir(40);
-       
+        assertEquals("10, 20, 30", inteiros.toString());
+        assertEquals("40, 50", inteiros2.toString());
+        assertEquals(8, inteiros3.getLimite());
 
-        assertEquals("10, 20, 30, 40", inteiros.toString());
+        assertEquals("10, 20, 30, 40, 50", inteiros3.toString());
     }
 
 }
