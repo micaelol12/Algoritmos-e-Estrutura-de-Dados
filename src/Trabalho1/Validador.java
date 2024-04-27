@@ -1,23 +1,52 @@
 package Trabalho1;
 
-import exercicio5.Pilha;
 import exercicio5.PilhaLista;
+
+// falta validar singletons e retornar as tags encontradas juntas com sua quantidade
 
 public class Validador {
 
-    public static void main(String[] args) {
-        String teste = "<html style={{backgroundColor: 'green'}}>\r\n" + //
-                "<body>\r\n" + //
-                "<h1>Aqui cabeçalho do arquivo</h1>\r\n" + //
-                "<p>Meu parágrafo da página web.</p>\r\n" + //
-                "<p>Meu segundo parágrafo.</p>\r\n" + //
-                "</body>\r\n" + //
-                "</html>";
-
-        validar(teste);
+    public Validador() {
     }
 
-    public static Boolean validar(String texto) {
+    // retorna se a tag passada como parâmetro é uma tag final
+    private boolean isTagFinal(String pTag) {
+        return pTag.startsWith("</");
+    }
+
+    // retorna a tag final da tag passa como parâmetro
+    private String getTagFinal(String tag) {
+        if (isTagFinal(tag)) {
+            throw new RuntimeException("A tag deve ser inicial");
+        }
+        return "</" + tag.substring(1);
+    }
+
+    /*
+     * Retorna a tag sem seus seus atributos
+     */
+    private String limparTag(String tag) {
+        char[] arrayChar = tag.toCharArray();
+        String cleanedTag = "";
+
+        for (int i = 0; i <= arrayChar.length - 1; i++) {
+
+            char ch = arrayChar[i];
+
+            if (Character.isWhitespace(ch)) {
+                if (tag.endsWith(">")) {
+                    return cleanedTag + '>';
+                }
+            }
+
+            cleanedTag += ch;
+
+        }
+
+        return cleanedTag;
+    }
+
+    public void validarTexto(String texto) {
         PilhaLista<String> tags = new PilhaLista<String>();
 
         char[] arrayChar = texto.toCharArray();
@@ -34,20 +63,44 @@ public class Validador {
                 ler = true;
             }
 
-            if(ler){
+            if (ler) {
                 tag += ch;
             }
 
             if (ch == '>') {
-                tags.push(tag);
+                if (isTagFinal(tag)) {
+                    String ultimaTag = limparTag(tags.pop());
+
+                    String expecetedEndTag = getTagFinal(ultimaTag);
+
+                    if (!tag.equals(expecetedEndTag)) {
+                        throw new RuntimeException(
+                                "Tag final inesperada,esperava-se tag " + expecetedEndTag + ". Encontrada tag " + tag);
+                    }
+                    ;
+
+                } else {
+                    tags.push(tag);
+                }
+
                 tag = "";
                 ler = false;
             }
 
         }
 
-       System.out.println( tags.toString());
+        if (!tags.estaVazia()) {
+            String message = "Faltam tags finais. Esparadas as tags finais: ";
 
-        return false;
+            while (!tags.estaVazia()) {
+                String openTag = tags.pop();
+
+                message += (getTagFinal(openTag) + "\n");
+            }
+
+            throw new RuntimeException(message);
+        }
+        ;
+
     }
 }
