@@ -27,6 +27,7 @@ public class Validador {
      */
     private String limparTag(String tag) {
         char[] arrayChar = tag.toCharArray();
+        
         String cleanedTag = "";
 
         for (int i = 0; i <= arrayChar.length - 1; i++) {

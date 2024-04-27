@@ -22,6 +22,7 @@ import java.io.IOException;
 import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
+import javax.xml.validation.Validator;
 
 public class Interface {
 
@@ -68,7 +69,16 @@ public class Interface {
 					System.out.print(error);
 					JOptionPane.showMessageDialog(frame, error.getMessage());
 				}
+
 				String content = contentBuilder.toString();
+				
+				Validador validator = new Validador();
+
+				try {
+					validator.validarTexto(content);
+				} catch (Exception error) {
+					JOptionPane.showMessageDialog(frame, error.getMessage());
+				}
 
 				System.out.print(content);
 
