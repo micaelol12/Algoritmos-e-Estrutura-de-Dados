@@ -22,7 +22,8 @@ import java.io.IOException;
 import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
-import javax.xml.validation.Validator;
+
+import exercicio5.Pilha;
 
 public class Interface {
 
@@ -49,38 +50,54 @@ public class Interface {
 		frame.setVisible(true);
 	}
 
-	private void Validar(JButton btnAnalisar, JTextField textField) {
+	private void montarTabela(Pilha<String> dados, DefaultTableModel tableModel) {
+
+		System.out.print(dados.toString());
+
+		while (!dados.estaVazia()) {
+			tableModel.addRow(new Object[] { dados.pop(), 1 });
+		}
+
+	
+		
+
+	}
+
+	private String lerArquivo(String path) {
+		StringBuilder contentBuilder = new StringBuilder();
+
+		try {
+			BufferedReader in = new BufferedReader(new FileReader(path));
+			String str;
+			while ((str = in.readLine()) != null) {
+				contentBuilder.append(str);
+			}
+			in.close();
+		} catch (IOException error) {
+			System.out.print(error);
+			JOptionPane.showMessageDialog(frame, error.getMessage());
+		}
+
+		return contentBuilder.toString();
+	}
+
+	private void Validar(JButton btnAnalisar, JTextField textField, DefaultTableModel tableModel) {
 		btnAnalisar.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 				String path = textField.getText();
-				System.out.println(path);
 
-				StringBuilder contentBuilder = new StringBuilder();
+				String conteudo = lerArquivo(path);
 
-				try {
-					BufferedReader in = new BufferedReader(new FileReader(path));
-					String str;
-					while ((str = in.readLine()) != null) {
-						contentBuilder.append(str);
-					}
-					in.close();
-				} catch (IOException error) {
-					System.out.print(error);
-					JOptionPane.showMessageDialog(frame, error.getMessage());
-				}
-
-				String content = contentBuilder.toString();
-				
 				Validador validator = new Validador();
 
 				try {
-					validator.validarTexto(content);
+					Pilha<String> tags = validator.validarTexto(conteudo);
+					montarTabela(tags, tableModel);
+
 				} catch (Exception error) {
 					JOptionPane.showMessageDialog(frame, error.getMessage());
 				}
-
-				System.out.print(content);
 
 			}
 		});
@@ -89,7 +106,7 @@ public class Interface {
 
 	private void initialize() {
 		JTextField textField;
-		JTable table_1;
+		JTable table;
 
 		JPanel panel = new JPanel();
 		frame.getContentPane().add(panel, BorderLayout.NORTH);
@@ -121,36 +138,25 @@ public class Interface {
 		panel_2.setBorder(UIManager.getBorder("Button.border"));
 		frame.getContentPane().add(panel_2, BorderLayout.SOUTH);
 
-		table_1 = new JTable(new DefaultTableModel(
+		DefaultTableModel model = new DefaultTableModel(
 				new Object[][] {
-						{ null, null },
-						{ null, null },
-						{ null, null },
-						{ null, null },
-						{ null, null },
-						{ null, null },
-						{ null, null },
-						{ null, null },
-						{ null, null },
-						{ null, null },
-						{ null, null },
+
 				},
 				new String[] {
 						"Tag", "N\u00FAmero de ocorr\u00EAncias"
-				}));
+				});
 
-		table_1.getColumnModel().getColumn(1).setResizable(false);
-		table_1.getColumnModel().getColumn(1).setPreferredWidth(77);
+		table = new JTable(model);
 
-		table_1.setRowHeight(20);
+		table.setRowHeight(20);
 		panel_2.setLayout(new BorderLayout(0, 0));
-		panel_2.add(table_1);
+		panel_2.add(table);
 
-		panel_2.add(table_1.getTableHeader(), BorderLayout.NORTH);
+		panel_2.add(table.getTableHeader(), BorderLayout.NORTH);
 
 		/* Listeners */
 
-		Validar(btnAnalisar, textField);
+		Validar(btnAnalisar, textField, model);
 
 	}
 }

@@ -27,7 +27,7 @@ public class Validador {
      */
     private String limparTag(String tag) {
         char[] arrayChar = tag.toCharArray();
-        
+
         String cleanedTag = "";
 
         for (int i = 0; i <= arrayChar.length - 1; i++) {
@@ -47,8 +47,9 @@ public class Validador {
         return cleanedTag;
     }
 
-    public void validarTexto(String texto) {
+    public PilhaLista<String> validarTexto(String texto) {
         PilhaLista<String> tags = new PilhaLista<String>();
+        PilhaLista<String> pilhaTag = new PilhaLista<String>();
 
         char[] arrayChar = texto.toCharArray();
 
@@ -70,7 +71,7 @@ public class Validador {
 
             if (ch == '>') {
                 if (isTagFinal(tag)) {
-                    String ultimaTag = limparTag(tags.pop());
+                    String ultimaTag = tags.pop();
 
                     String expecetedEndTag = getTagFinal(ultimaTag);
 
@@ -81,7 +82,9 @@ public class Validador {
                     ;
 
                 } else {
-                    tags.push(tag);
+                    String tagLimpa = limparTag(tag);
+                    tags.push(tagLimpa);
+                    pilhaTag.push(tagLimpa);
                 }
 
                 tag = "";
@@ -102,6 +105,8 @@ public class Validador {
             throw new RuntimeException(message);
         }
         ;
+
+        return pilhaTag;
 
     }
 }
