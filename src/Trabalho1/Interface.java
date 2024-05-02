@@ -23,6 +23,7 @@ import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 
+import exercicio2.ListaEstatica;
 import exercicio5.Pilha;
 
 public class Interface {
@@ -50,16 +51,14 @@ public class Interface {
 		frame.setVisible(true);
 	}
 
-	private void montarTabela(Pilha<String> dados, DefaultTableModel tableModel) {
+	private void montarTabela(ListaEstatica<Tag> dados, DefaultTableModel tableModel) {
 
-		System.out.print(dados.toString());
-
-		while (!dados.estaVazia()) {
-			tableModel.addRow(new Object[] { dados.pop(), 1 });
-		}
-
-	
 		
+
+		for (int j = 0; j <= dados.getTamanho() -1; j++) {
+			Tag ptag = dados.obterElemento(j);
+			tableModel.addRow(new Object[] { ptag.getTag(), ptag.getCount() });
+		}
 
 	}
 
@@ -92,7 +91,7 @@ public class Interface {
 				Validador validator = new Validador();
 
 				try {
-					Pilha<String> tags = validator.validarTexto(conteudo);
+					ListaEstatica<Tag> tags = validator.validarTexto(conteudo);
 					montarTabela(tags, tableModel);
 
 				} catch (Exception error) {

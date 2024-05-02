@@ -1,5 +1,6 @@
 package Trabalho1;
 
+import exercicio2.ListaEstatica;
 import exercicio5.PilhaLista;
 
 // falta validar singletons e retornar as tags encontradas juntas com sua quantidade
@@ -47,9 +48,20 @@ public class Validador {
         return cleanedTag;
     }
 
-    public PilhaLista<String> validarTexto(String texto) {
+    private int achaTag(ListaEstatica<Tag> lista, String tag) {
+        for (int i = 0; i < lista.getTamanho(); i++) {
+            Tag aux = lista.obterElemento(i);
+
+            if (aux.getTag().equals(tag)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public ListaEstatica<Tag> validarTexto(String texto) {
         PilhaLista<String> tags = new PilhaLista<String>();
-        PilhaLista<String> pilhaTag = new PilhaLista<String>();
+        ListaEstatica<Tag> listaTag = new ListaEstatica<Tag>();
 
         char[] arrayChar = texto.toCharArray();
 
@@ -84,7 +96,17 @@ public class Validador {
                 } else {
                     String tagLimpa = limparTag(tag);
                     tags.push(tagLimpa);
-                    pilhaTag.push(tagLimpa);
+
+                    int index = achaTag(listaTag, tagLimpa);
+
+                    if (index != -1) {
+                        Tag p = listaTag.obterElemento(index);
+                        p.setCount(p.getCount() + 1);
+                    } else {
+
+                        listaTag.inserir(new Tag(tagLimpa));
+                    }
+
                 }
 
                 tag = "";
@@ -106,7 +128,7 @@ public class Validador {
         }
         ;
 
-        return pilhaTag;
+        return listaTag;
 
     }
 }
