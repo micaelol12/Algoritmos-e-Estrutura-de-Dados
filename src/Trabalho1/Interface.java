@@ -24,7 +24,6 @@ import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 
 import exercicio2.ListaEstatica;
-import exercicio5.Pilha;
 
 public class Interface {
 
@@ -52,10 +51,7 @@ public class Interface {
 	}
 
 	private void montarTabela(ListaEstatica<Tag> dados, DefaultTableModel tableModel) {
-
-		
-
-		for (int j = 0; j <= dados.getTamanho() -1; j++) {
+		for (int j = 0; j <= dados.getTamanho() - 1; j++) {
 			Tag ptag = dados.obterElemento(j);
 			tableModel.addRow(new Object[] { ptag.getTag(), ptag.getCount() });
 		}
@@ -64,8 +60,12 @@ public class Interface {
 
 	private String lerArquivo(String path) {
 		StringBuilder contentBuilder = new StringBuilder();
+		if (path.length() == 0) {
+			throw new RuntimeException("Nenhum caminho digitado");
+		}
 
 		try {
+
 			BufferedReader in = new BufferedReader(new FileReader(path));
 			String str;
 			while ((str = in.readLine()) != null) {
@@ -73,26 +73,25 @@ public class Interface {
 			}
 			in.close();
 		} catch (IOException error) {
-			System.out.print(error);
-			JOptionPane.showMessageDialog(frame, error.getMessage());
+			throw new RuntimeException(error.getMessage());
 		}
 
 		return contentBuilder.toString();
 	}
 
-	private void Validar(JButton btnAnalisar, JTextField textField, DefaultTableModel tableModel) {
+	private void Validar(JButton btnAnalisar, JTextField textField, DefaultTableModel tableModel, JTextArea textArea) {
 		btnAnalisar.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 				String path = textField.getText();
 
-				String conteudo = lerArquivo(path);
-
 				Validador validator = new Validador();
 
 				try {
+					String conteudo = lerArquivo(path);
 					ListaEstatica<Tag> tags = validator.validarTexto(conteudo);
 					montarTabela(tags, tableModel);
+					textArea.setText("O arquivo está bem formatado");
 
 				} catch (Exception error) {
 					JOptionPane.showMessageDialog(frame, error.getMessage());
@@ -131,6 +130,7 @@ public class Interface {
 		panel_1.setLayout(new BorderLayout(0, 0));
 
 		JTextArea textArea = new JTextArea();
+		textArea.setEnabled(false);
 		panel_1.add(textArea);
 
 		JPanel panel_2 = new JPanel();
@@ -146,16 +146,19 @@ public class Interface {
 				});
 
 		table = new JTable(model);
+		table.setCellSelectionEnabled(true);
+		table.setColumnSelectionAllowed(true);
 
 		table.setRowHeight(20);
 		panel_2.setLayout(new BorderLayout(0, 0));
 		panel_2.add(table);
+		table.setEnabled(false);
 
 		panel_2.add(table.getTableHeader(), BorderLayout.NORTH);
 
 		/* Listeners */
 
-		Validar(btnAnalisar, textField, model);
+		Validar(btnAnalisar, textField, model, textArea);
 
 	}
 }

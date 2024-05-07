@@ -63,6 +63,7 @@ public class Validador {
         PilhaLista<String> tags = new PilhaLista<String>();
         ListaEstatica<Tag> listaTag = new ListaEstatica<Tag>();
 
+
         char[] arrayChar = texto.toCharArray();
 
         String tag = "";
