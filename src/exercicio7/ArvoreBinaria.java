@@ -54,6 +54,18 @@ public class ArvoreBinaria<T> {
         return contarNos(no.getEsquerda()) + contarNos(no.getDireita()) + 1;
     }
 
+    public int contarNosInternos(NoArvoreBinaria<T> sa){
+        if (sa == null) {
+            return 0;
+        }
+
+        if(sa.getEsquerda() == null && sa.getDireita() == null){
+            return 0;
+        }
+
+        return contarNosInternos(sa.getEsquerda()) + contarNosInternos(sa.getDireita()) + 1;
+    }
+
     public int contarNos() {
         return contarNos(raiz);
     }

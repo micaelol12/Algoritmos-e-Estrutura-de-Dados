@@ -14,6 +14,9 @@ public class ArvoreBinariaTest {
     public void setUp() {
         NoArvoreBinaria<Integer> no5 = new NoArvoreBinaria<Integer>(5);
 
+        NoArvoreBinaria<Integer> no7 = new NoArvoreBinaria<Integer>(7);
+
+        no5.setEsquerda(no7);
         NoArvoreBinaria<Integer> no6 = new NoArvoreBinaria<Integer>(6);
 
         NoArvoreBinaria<Integer> no4 = new NoArvoreBinaria<Integer>(4);
@@ -73,5 +76,10 @@ public class ArvoreBinariaTest {
     @Test
     void test8() {
         assertEquals(6, inteiros.contarNos());
+    }
+
+    @Test
+    void testProva() {
+        assertEquals(2, inteiros.contarNosInternos(inteiros.getRaiz().getDireita()));
     }
 }

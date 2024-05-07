@@ -86,6 +86,31 @@ public class FilaVetorTest {
     }
 
     @Test
+    void testPRovar() {
+        FilaVetor<Character> chars = new FilaVetor<>(5);
+        chars.inserir('A');
+        chars.inserir('A');
+        chars.inserir('A');
+
+        chars.retirar();
+        chars.retirar();
+        chars.retirar();
+
+        chars.inserir('A');
+        chars.inserir('B');
+        chars.inserir('C');
+        chars.inserir('D');
+
+
+        chars.encolher();
+
+        assertEquals(4,chars.getLimite());
+        assertEquals(4,chars.getTamanho());
+        assertEquals(0,chars.getInicio());
+        assertEquals("A, B, C, D", chars.toString());
+    }
+
+    @Test
     void test8() {
         FilaVetor<Integer> inteiros = new FilaVetor<>(5);
         inteiros.inserir(10);

@@ -81,6 +81,22 @@ public class FilaVetor<T> implements Fila<T> {
         return valor;
     }
 
+    public void encolher(){
+        @SuppressWarnings("unchecked")
+        T[] novoVetor = (T[]) new Object[getTamanho()];
+        int indice = getInicio();
+
+        for (int i = 0; i < getTamanho(); i++) {
+            novoVetor[i] = getInfo()[indice];
+            indice = (indice + 1) % getLimite();
+        }
+
+
+        setLimite(getTamanho());
+        setInfo(novoVetor);
+        setInicio(0);
+    }
+
     public void liberar() {
         try {
             while (true) {
