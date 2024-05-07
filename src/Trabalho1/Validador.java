@@ -3,7 +3,7 @@ package Trabalho1;
 import exercicio2.ListaEstatica;
 import exercicio5.PilhaLista;
 
-// falta validar singletons e retornar as tags encontradas juntas com sua quantidade
+// falta validar singletons e corrigir primeira celula n aparecendo
 
 public class Validador {
 
