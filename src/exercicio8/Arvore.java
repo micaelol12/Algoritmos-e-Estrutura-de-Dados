@@ -17,7 +17,7 @@ public class Arvore<T> {
     }
 
     private boolean pertence(NoArvore<T> no, T info) {
-        if (no.getInfo() == info) {
+        if (no.getInfo().equals(info)) {
             return true;
         }
 
@@ -54,7 +54,7 @@ public class Arvore<T> {
         }
 
         s += ">";
-        
+
         return s;
     }
 
@@ -66,8 +66,8 @@ public class Arvore<T> {
         return obterRepresentacaoTextual(getRaiz());
     }
 
-    private int ContarNos(NoArvore<T> no){
-        int i = 0;
+    private int ContarNos(NoArvore<T> no) {
+        int i = 1;
 
         NoArvore<T> p = no.getPrimeiro();
 
@@ -76,10 +76,29 @@ public class Arvore<T> {
             p = p.getProximo();
         }
 
-        return i + 1;
+        return i;
     }
 
-    public int ContarNos(){
+    public boolean isDegenerada() {
+        if (getRaiz() == null) {
+            return false;
+        }
+
+        NoArvore<T> p = getRaiz();
+
+        while (p != null) {
+            if (p.getProximo() != null) {
+                return false;
+            }
+
+            p = p.getPrimeiro();
+        }
+
+        return true;
+
+    }
+
+    public int ContarNos() {
         if (getRaiz() == null) {
             return 0;
         }

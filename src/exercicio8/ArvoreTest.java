@@ -66,4 +66,31 @@ public class ArvoreTest {
         assertEquals(10, arvore.ContarNos());
     }
 
+    @Test
+    void test5() {
+        assertFalse(arvore.isDegenerada());
+    }
+
+
+    @Test
+    void test6() {
+        Arvore<Integer> arvore2 = new Arvore<>();
+
+        //NoArvore<Integer> n4 = new NoArvore<Integer>(7);
+
+        NoArvore<Integer> n3 = new NoArvore<Integer>(7);
+
+        NoArvore<Integer> n2 = new NoArvore<Integer>(6);
+
+        NoArvore<Integer> n1 = new NoArvore<Integer>(5);
+
+        n1.setPrimeiro(n2);
+        n2.setPrimeiro(n3);
+
+        // n3.setProximo(n4);
+        arvore2.setRaiz(n1);
+
+        assertTrue(arvore2.isDegenerada());
+    }
+
 }
