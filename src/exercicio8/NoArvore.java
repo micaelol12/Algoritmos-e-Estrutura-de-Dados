@@ -3,7 +3,6 @@ package exercicio8;
 public class NoArvore<T> {
 
     private T info;
-
     private NoArvore<T> primeiro;
     private NoArvore<T> proximo;
 

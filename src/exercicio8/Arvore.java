@@ -5,6 +5,7 @@ public class Arvore<T> {
     private NoArvore<T> raiz;
 
     public Arvore() {
+        setRaiz(null);
     }
 
     public NoArvore<T> getRaiz() {
@@ -42,6 +43,7 @@ public class Arvore<T> {
 
     private String obterRepresentacaoTextual(NoArvore<T> no) {
         String s = "<";
+
         s += no.getInfo();
 
         NoArvore<T> p = no.getPrimeiro();
@@ -60,12 +62,12 @@ public class Arvore<T> {
         if (getRaiz() == null) {
             return "";
         }
+
         return obterRepresentacaoTextual(getRaiz());
     }
 
     private int ContarNos(NoArvore<T> no){
         int i = 0;
-       
 
         NoArvore<T> p = no.getPrimeiro();
 
