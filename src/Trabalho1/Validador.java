@@ -3,11 +3,13 @@ package Trabalho1;
 import exercicio2.ListaEstatica;
 import exercicio5.PilhaLista;
 
-
 public class Validador {
 
     private ListaEstatica<String> singletons = new ListaEstatica<>();
+    private PilhaLista<String> tags = new PilhaLista<String>();
+    private ListaEstatica<Tag> listaTag = new ListaEstatica<Tag>();
 
+    // Populando vetor de singletons
     public Validador() {
         singletons.inserir("meta");
         singletons.inserir("base");
@@ -34,6 +36,7 @@ public class Validador {
         if (isTagFinal(tag)) {
             throw new RuntimeException("A tag deve ser inicial");
         }
+
         return "</" + tag + ">";
     }
 
@@ -60,9 +63,9 @@ public class Validador {
         return cleanedTag;
     }
 
-    private int achaTag(ListaEstatica<Tag> lista, String tag) {
-        for (int i = 0; i < lista.getTamanho(); i++) {
-            Tag aux = lista.obterElemento(i);
+    private int achaTag(String tag) {
+        for (int i = 0; i < listaTag.getTamanho(); i++) {
+            Tag aux = listaTag.obterElemento(i);
 
             if (aux.getTag().equals(tag)) {
                 return i;
@@ -72,8 +75,9 @@ public class Validador {
     }
 
     public ListaEstatica<Tag> validarTexto(String texto) {
-        PilhaLista<String> tags = new PilhaLista<String>();
-        ListaEstatica<Tag> listaTag = new ListaEstatica<Tag>();
+
+        listaTag.liberar();
+        tags.liberar();
 
         char[] arrayChar = texto.toLowerCase().toCharArray();
 
@@ -108,11 +112,11 @@ public class Validador {
                 } else {
                     String tagLimpa = limparTag(tag);
 
-                    if(singletons.buscar(tagLimpa) == -1){
+                    if (singletons.buscar(tagLimpa) == -1) {
                         tags.push(tagLimpa);
                     }
 
-                    int index = achaTag(listaTag, tagLimpa);
+                    int index = achaTag(tagLimpa);
 
                     if (index != -1) {
                         Tag p = listaTag.obterElemento(index);
@@ -144,5 +148,29 @@ public class Validador {
 
         return listaTag;
 
+    }
+
+    public ListaEstatica<String> getSingletons() {
+        return singletons;
+    }
+
+    public void setSingletons(ListaEstatica<String> singletons) {
+        this.singletons = singletons;
+    }
+
+    public PilhaLista<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(PilhaLista<String> tags) {
+        this.tags = tags;
+    }
+
+    public ListaEstatica<Tag> getListaTag() {
+        return listaTag;
+    }
+
+    public void setListaTag(ListaEstatica<Tag> listaTag) {
+        this.listaTag = listaTag;
     }
 }
