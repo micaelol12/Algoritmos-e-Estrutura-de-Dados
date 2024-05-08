@@ -5,8 +5,11 @@ import exercicio5.PilhaLista;
 
 public class Validador {
 
+    // Lista de singletons
     private ListaEstatica<String> singletons = new ListaEstatica<>();
+    // Pilha de tags para validação
     private PilhaLista<String> tags = new PilhaLista<String>();
+    //Lista para contagem de tags
     private ListaEstatica<Tag> listaTag = new ListaEstatica<Tag>();
 
     // Populando vetor de singletons
@@ -32,19 +35,17 @@ public class Validador {
     }
 
     // retorna a tag final da tag passa como parâmetro
-    private String getTagFinal(String tag) {
-        if (isTagFinal(tag)) {
+    private String getTagFinal(String pTag) {
+        if (isTagFinal(pTag)) {
             throw new RuntimeException("A tag deve ser inicial");
         }
 
-        return "</" + tag + ">";
+        return "</" + pTag + ">";
     }
 
-    /*
-     * Retorna a tag sem seus seus atributos
-     */
-    private String limparTag(String tag) {
-        char[] arrayChar = tag.toCharArray();
+    // Retorna a tag sem seus seus atributos
+    private String limparTag(String pTag) {
+        char[] arrayChar = pTag.toCharArray();
 
         String cleanedTag = "";
 
@@ -63,21 +64,23 @@ public class Validador {
         return cleanedTag;
     }
 
-    private int achaTag(String tag) {
+    // Procura a tag na listagem de tags
+    private int achaTag(String pTag) {
         for (int i = 0; i < listaTag.getTamanho(); i++) {
             Tag aux = listaTag.obterElemento(i);
 
-            if (aux.getTag().equals(tag)) {
+            if (aux.getTag().equals(pTag)) {
                 return i;
             }
         }
         return -1;
     }
 
+    // Valida o texto
     public ListaEstatica<Tag> validarTexto(String texto) {
 
-        listaTag.liberar();
-        tags.liberar();
+        getListaTag().liberar();
+        getTags().liberar();
 
         char[] arrayChar = texto.toLowerCase().toCharArray();
 
@@ -99,7 +102,7 @@ public class Validador {
 
             if (ch == '>') {
                 if (isTagFinal(tag)) {
-                    String ultimaTag = tags.pop();
+                    String ultimaTag = getTags().pop();
 
                     String expecetedEndTag = getTagFinal(ultimaTag);
 
@@ -112,17 +115,17 @@ public class Validador {
                 } else {
                     String tagLimpa = limparTag(tag);
 
-                    if (singletons.buscar(tagLimpa) == -1) {
-                        tags.push(tagLimpa);
+                    if (getSingletons().buscar(tagLimpa) == -1) {
+                        getTags().push(tagLimpa);
                     }
 
                     int index = achaTag(tagLimpa);
 
                     if (index != -1) {
-                        Tag p = listaTag.obterElemento(index);
+                        Tag p = getListaTag().obterElemento(index);
                         p.setCount(p.getCount() + 1);
                     } else {
-                        listaTag.inserir(new Tag(tagLimpa));
+                        getListaTag().inserir(new Tag(tagLimpa));
                     }
 
                 }
@@ -133,11 +136,11 @@ public class Validador {
 
         }
 
-        if (!tags.estaVazia()) {
+        if (!getTags().estaVazia()) {
             String message = "Faltam tags finais. Esparadas as tags finais: ";
 
-            while (!tags.estaVazia()) {
-                String openTag = tags.pop();
+            while (!getTags().estaVazia()) {
+                String openTag = getTags().pop();
 
                 message += (getTagFinal(openTag) + "\n");
             }
@@ -146,7 +149,7 @@ public class Validador {
         }
         ;
 
-        return listaTag;
+        return getListaTag();
 
     }
 

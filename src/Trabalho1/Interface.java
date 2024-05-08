@@ -28,7 +28,7 @@ import exercicio2.ListaEstatica;
 public class Interface {
 
 	private JFrame frame;
-	
+
 	Validador validator = new Validador();
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -52,6 +52,7 @@ public class Interface {
 	}
 
 	private void montarTabela(ListaEstatica<Tag> dados, DefaultTableModel tableModel) {
+		tableModel.setRowCount(0);
 		for (int j = 0; j <= dados.getTamanho() - 1; j++) {
 			Tag ptag = dados.obterElemento(j);
 			tableModel.addRow(new Object[] { ptag.getTag(), ptag.getCount() });
