@@ -3,11 +3,25 @@ package Trabalho1;
 import exercicio2.ListaEstatica;
 import exercicio5.PilhaLista;
 
-// falta validar singletons e corrigir primeira celula n aparecendo
 
 public class Validador {
 
+    private ListaEstatica<String> singletons = new ListaEstatica<>();
+
     public Validador() {
+        singletons.inserir("meta");
+        singletons.inserir("base");
+        singletons.inserir("br");
+        singletons.inserir("col");
+        singletons.inserir("command");
+        singletons.inserir("embed");
+        singletons.inserir("hr");
+        singletons.inserir("img");
+        singletons.inserir("input");
+        singletons.inserir("link");
+        singletons.inserir("param");
+        singletons.inserir("source");
+        singletons.inserir("!DOCTYPE");
     }
 
     // retorna se a tag passada como parâmetro é uma tag final
@@ -20,7 +34,7 @@ public class Validador {
         if (isTagFinal(tag)) {
             throw new RuntimeException("A tag deve ser inicial");
         }
-        return "</" + tag.substring(1);
+        return "</" + tag + ">";
     }
 
     /*
@@ -31,14 +45,12 @@ public class Validador {
 
         String cleanedTag = "";
 
-        for (int i = 0; i <= arrayChar.length - 1; i++) {
+        for (int i = 1; i <= arrayChar.length - 1; i++) {
 
             char ch = arrayChar[i];
 
-            if (Character.isWhitespace(ch)) {
-                if (tag.endsWith(">")) {
-                    return cleanedTag + '>';
-                }
+            if (ch == '>' || Character.isWhitespace(ch)) {
+                return cleanedTag;
             }
 
             cleanedTag += ch;
@@ -63,8 +75,7 @@ public class Validador {
         PilhaLista<String> tags = new PilhaLista<String>();
         ListaEstatica<Tag> listaTag = new ListaEstatica<Tag>();
 
-
-        char[] arrayChar = texto.toCharArray();
+        char[] arrayChar = texto.toLowerCase().toCharArray();
 
         String tag = "";
 
@@ -96,7 +107,10 @@ public class Validador {
 
                 } else {
                     String tagLimpa = limparTag(tag);
-                    tags.push(tagLimpa);
+
+                    if(singletons.buscar(tagLimpa) == -1){
+                        tags.push(tagLimpa);
+                    }
 
                     int index = achaTag(listaTag, tagLimpa);
 
@@ -104,7 +118,6 @@ public class Validador {
                         Tag p = listaTag.obterElemento(index);
                         p.setCount(p.getCount() + 1);
                     } else {
-
                         listaTag.inserir(new Tag(tagLimpa));
                     }
 

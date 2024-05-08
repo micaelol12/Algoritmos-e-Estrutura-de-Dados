@@ -28,7 +28,8 @@ import exercicio2.ListaEstatica;
 public class Interface {
 
 	private JFrame frame;
-
+	
+	Validador validator = new Validador();
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -85,8 +86,6 @@ public class Interface {
 			public void actionPerformed(ActionEvent e) {
 				String path = textField.getText();
 
-				Validador validator = new Validador();
-
 				try {
 					String conteudo = lerArquivo(path);
 					ListaEstatica<Tag> tags = validator.validarTexto(conteudo);
@@ -130,7 +129,7 @@ public class Interface {
 		panel_1.setLayout(new BorderLayout(0, 0));
 
 		JTextArea textArea = new JTextArea();
-		textArea.setEnabled(false);
+		textArea.setEditable(false);
 		panel_1.add(textArea);
 
 		JPanel panel_2 = new JPanel();
