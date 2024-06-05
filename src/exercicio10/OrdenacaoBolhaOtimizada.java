@@ -1,4 +1,4 @@
-package exerciocio10;
+package exercicio10;
 
 public class OrdenacaoBolhaOtimizada<T extends Comparable<T>> extends OrdenacaoAbstract<T> {
 

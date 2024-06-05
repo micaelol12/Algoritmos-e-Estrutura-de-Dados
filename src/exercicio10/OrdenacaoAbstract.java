@@ -1,4 +1,4 @@
-package exerciocio10;
+package exercicio10;
 
 public abstract class OrdenacaoAbstract<T extends Comparable<T>> {
     private T[] info;

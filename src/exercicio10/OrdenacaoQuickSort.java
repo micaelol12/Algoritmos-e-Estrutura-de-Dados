@@ -1,4 +1,4 @@
-package exerciocio10;
+package exercicio10;
 
 public class OrdenacaoQuickSort<T extends Comparable<T>> extends OrdenacaoAbstract<T> {
 

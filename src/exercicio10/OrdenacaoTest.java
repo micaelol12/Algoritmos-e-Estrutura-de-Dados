@@ -1,4 +1,4 @@
-package exerciocio10;
+package exercicio10;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 

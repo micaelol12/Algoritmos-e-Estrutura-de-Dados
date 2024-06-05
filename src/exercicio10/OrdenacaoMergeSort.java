@@ -1,4 +1,4 @@
-package exerciocio10;
+package exercicio10;
 
 @SuppressWarnings("unchecked")
 public class OrdenacaoMergeSort<T extends Comparable<T>> extends OrdenacaoAbstract<T> {
