@@ -2,15 +2,12 @@ package Exercicio12;
 
 public class ArvoreBinaria<T> extends ArvoreBinariaAbstract<T> {
 
-    NoArvoreBinaria<T> raiz = super.getRaiz();
-
     public void setRaiz(NoArvoreBinaria<T> raiz) {
-        this.raiz = raiz;
+        super.setRaiz(raiz);
     }
 
-    @Override
     public NoArvoreBinaria<T> buscar(T info) {
-        return buscar(raiz, info);
+        return buscar(getRaiz(), info);
     }
 
     private NoArvoreBinaria<T> buscar(NoArvoreBinaria<T> no, T info) {
@@ -29,7 +26,7 @@ public class ArvoreBinaria<T> extends ArvoreBinariaAbstract<T> {
         }
 
         NoArvoreBinaria<T> resultadoDireita = buscar(no.getDireita(), info);
-        
+
         return resultadoDireita;
     }
 
