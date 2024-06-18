@@ -1,158 +1,102 @@
 package Exercicio11;
 
-public class ListaAbstract<T> {
+public abstract class ListaAbstract<T> {
 
-	private Object[] info;
+    protected Object[] info;
+    protected int tamanho;
 
-	private int tamanho;
+    public ListaAbstract() {
+        liberar();
+    }
 
-	public ListaAbstract() {
-		info = new Object[10];
-		setTamanho(0);
-	}
+    protected void redimensionar() {
+        Object[] provisorio = new Object[tamanho + 10];
 
-	protected void redimensionar() {
-		int novoTamanho = getTamanho() + 10;
-		Object[] novoVetor = new Object[novoTamanho];
+        int index = 0;
+        for (Object i : info) {
+            provisorio[index] = i;
+            index++;
+        }
 
-		for (int i = 0; i < getTamanho(); i++) {
-			novoVetor[i] = getInfo()[i];
-		}
+        info = provisorio;
+    }
 
-		setInfo(novoVetor);
-	}
+    public abstract void inserir(T valor);
 
-	public void inserir(T valor) {
-		if (getTamanho() == getInfo().length) {
-			redimensionar();
-		}
-		getInfo()[getTamanho()] = valor;
-		setTamanho(getTamanho() + 1);
-	}
+    public void exibir() {
+        for (int i = 0; i < tamanho; i++) {
+            System.out.println(info[i]);
+        }
+    }
 
-	public void exibir() {
-		for (int i = 0; i < getTamanho(); i++) {
-			System.out.println(getInfo()[i]);
-		}
-	}
+    public abstract int buscar(T valor);
+    
+    public void retirar(T valor) {
+        int posicao = buscar(valor);
+        if (posicao > -1) {
+            info[posicao] = null;
 
-	public int buscar(T valor) {
-		for (int i = 0; i < getTamanho(); i++) {
-			Object aux = getInfo()[i];
+            for (int i = posicao; i < tamanho; i++) {
+                info[i] = info[i + 1];
+            }
+            tamanho--;
+        }
+    }
 
-			if (aux.equals(valor)) {
-				return i;
-			}
-		}
-		return -1;
-	}
+    public void liberar() {
+        info =  new Object[10];
+        tamanho = 0;
+    }
 
-	public void retirar(T valor) {
-		int posicao = buscar(valor);
+    public T obterElemento(int posicao) throws IndexOutOfBoundsException {
 
-		if (posicao == -1) {
-			return;
-		}
+        if (tamanho < posicao || posicao < 0)
+            throw new IndexOutOfBoundsException();
 
-		for (int i = posicao + 1; i < getTamanho(); i++) {
-			Object aux = getInfo()[i];
-			getInfo()[i - 1] = aux;
-		}
+        return (T) info[posicao];
+    }
 
-		setTamanho(getTamanho() - 1);
+    public void inverter(){
+        // for (int i = 1; i <= tamanho; i++) {
+        //     T a = (T) info[tamanho-i];
+        //     retirar(a);
+        //     inserir(a);
+        // }      
 
-		getInfo()[tamanho] = null;
-	}
+        for(int i = 0; i<(tamanho/2); i++){
+            Object variavel = info[i];
+            info[i] = info[tamanho-1-i];
+            info[tamanho-1-i] = variavel;
+        }
+    }
 
-	public void liberar() {
-		Object[] novoVetor = new Object[10];
-		setTamanho(0);
-		setInfo(novoVetor);
-	}
+    public boolean estaVazia() {
+        return tamanho == 0;
+    }
 
-	@SuppressWarnings("unchecked")
-	public T obterElemento(int posicao) throws IndexOutOfBoundsException {
-		if (posicao > getTamanho()) {
-			throw new IndexOutOfBoundsException(
-					"Índice " + posicao + " fora dos limites para comprimento " + getTamanho());
-		}
+    public int getTamanho() {
+        return tamanho;
+    }
 
-		T valor = (T) getInfo()[posicao];
+    @Override
+    public String toString() {
+        String arrayString = "";
 
-		return valor;
-	}
+        for (int i = 0; i < tamanho; i++) {
+            if(i > 0)
+                arrayString += ",";
+            
+            arrayString += info[i].toString();
+        }
 
-	public boolean estaVazia() {
-		return getTamanho() == 0;
-	}
+        return arrayString;
+    }
 
-	public String toString() {
-		String valor = "";
+    protected Object[] getInfo() {
+        return info;
+    }
 
-		for (int i = 0; i < getTamanho(); i++) {
-			valor += getInfo()[i];
-
-			if (i != getTamanho() - 1) {
-				valor += ",";
-			}
-
-		}
-
-		return valor;
-	}
-
-	public void inverter() {
-		for (int i = 0, j = getTamanho() - 1; i < j; i++, j--) {
-			Object aux = getInfo()[i];
-			Object aux1 = getInfo()[j];
-
-			getInfo()[i] = aux1;
-			getInfo()[j] = aux;
-		}
-	}
-
-	// Prova
-	public void retirarElementos(int inicio, int fim) {
-		if (inicio < 0 || fim < 0) {
-			throw new IndexOutOfBoundsException();
-		}
-
-		if (inicio > fim) {
-			throw new IndexOutOfBoundsException();
-		}
-
-		if (inicio >= getTamanho() || fim >= getTamanho()) {
-			throw new IndexOutOfBoundsException();
-		}
-
-		int destino = inicio;
-
-		for (int i = fim + 1; i <= getTamanho(); i++) {
-			info[destino] = info[i];
-			destino++;
-		}
-
-		for (int i = 1; i <= (fim - inicio + 1); i++) {
-			info[tamanho - 1] = null;
-		}
-
-		tamanho = tamanho - (fim - inicio + 1);
-	}
-
-	protected Object[] getInfo() {
-		return info;
-	}
-
-	public void setInfo(Object[] info) {
-		this.info = info;
-	}
-
-	public int getTamanho() {
-		return tamanho;
-	}
-
-	protected void setTamanho(int tamanho) {
-		this.tamanho = tamanho;
-	}
-
+    protected void setTamanho(int tamanho) {
+        this.tamanho = tamanho;
+    }
 }

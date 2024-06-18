@@ -2,23 +2,71 @@ package Exercicio11;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
+
 
 public class ListaOrdenadaTest {
 
+    ListaOrdenada<Integer> l;
+
+    @Before
+    public void init(){
+        l = new ListaOrdenada<>();
+    }
+
     @Test
-    void teste1() {
-        ListaOrdenada<Integer> lista = new ListaOrdenada<>();
+    public void TestarInserir(){
+        l.inserir(100);
+        l.inserir(20);
+        l.inserir(70);
+        l.inserir(1);
 
-        lista.inserir(100);
+        assertEquals("1,20,70,100", l.toString());
+    }
 
-        lista.inserir(20);
+    @Test
+    public void BuscarTeste(){
+        for (int i = 0; i < 110; i += 10) {
+            l.inserir(i);
+        }
 
-        lista.inserir(70);
+        assertEquals(2, l.buscar(20));
+    }
 
-        lista.inserir(1);
+    @Test
+    public void BuscarDnvTeste(){
+        for (int i = 0; i <= 110; i += 10) {
+            l.inserir(i);
+        }
 
-        assertEquals("1,20,70,100", lista.toString());
+        assertEquals(4, l.buscar(40));
+    }
 
+    @Test
+    public void BuscarDnvDnvTeste(){
+        for (int i = 0; i <= 110; i += 10) {
+            l.inserir(i);
+        }
+
+        assertEquals(7, l.buscar(70));
+    }
+
+    @Test
+    public void BuscarDnvDnvDnvTeste(){
+        for (int i = 0; i <= 110; i += 10) {
+            l.inserir(i);
+        }
+
+        assertEquals(10, l.buscar(100));
+    }
+
+    @Test
+    public void BuscarDnvDnvDnvDnvTeste(){
+        for (int i = 0; i <= 110; i += 10) {
+            l.inserir(i);
+        }
+
+        assertEquals(-1, l.buscar(85));
     }
 }
